@@ -1,8 +1,7 @@
 /**
  * @file FusionAhrs.h
  * @author Seb Madgwick
- * @brief AHRS algorithm to combine gyroscope, accelerometer, and magnetometer
- * measurements into a single measurement of orientation relative to the Earth.
+ * @brief Attitude and Heading Reference System (AHRS) algorithm.
  */
 
 #ifndef FUSION_AHRS_H
@@ -19,7 +18,7 @@
 // Definitions
 
 /**
- * @brief AHRS algorithm settings.
+ * @brief Settings.
  */
 typedef struct {
     FusionConvention convention;
@@ -31,14 +30,14 @@ typedef struct {
 } FusionAhrsSettings;
 
 /**
- * @brief AHRS algorithm structure.  Structure members are used internally and
- * must not be accessed by the application.
+ * @brief AHRS structure. All members are private.
  */
 typedef struct {
     FusionAhrsSettings settings;
     FusionQuaternion quaternion;
     FusionVector accelerometer;
-    bool initialising;
+    FusionVector halfGravity;
+    bool startup;
     float rampedGain;
     float rampedGainStep;
     bool angularRateRecovery;
@@ -53,7 +52,7 @@ typedef struct {
 } FusionAhrs;
 
 /**
- * @brief AHRS algorithm internal states.
+ * @brief Internal states.
  */
 typedef struct {
     float accelerationError;
@@ -65,21 +64,26 @@ typedef struct {
 } FusionAhrsInternalStates;
 
 /**
- * @brief AHRS algorithm flags.
+ * @brief Flags.
  */
 typedef struct {
-    bool initialising;
+    bool startup;
     bool angularRateRecovery;
     bool accelerationRecovery;
     bool magneticRecovery;
 } FusionAhrsFlags;
 
 //------------------------------------------------------------------------------
+// Variable declarations
+
+extern const FusionAhrsSettings fusionAhrsDefaultSettings;
+
+//------------------------------------------------------------------------------
 // Function declarations
 
 void FusionAhrsInitialise(FusionAhrs *const ahrs);
 
-void FusionAhrsReset(FusionAhrs *const ahrs);
+void FusionAhrsRestart(FusionAhrs *const ahrs);
 
 void FusionAhrsSetSettings(FusionAhrs *const ahrs, const FusionAhrsSettings *const settings);
 
@@ -92,6 +96,8 @@ void FusionAhrsUpdateExternalHeading(FusionAhrs *const ahrs, const FusionVector 
 FusionQuaternion FusionAhrsGetQuaternion(const FusionAhrs *const ahrs);
 
 void FusionAhrsSetQuaternion(FusionAhrs *const ahrs, const FusionQuaternion quaternion);
+
+FusionVector FusionAhrsGetGravity(const FusionAhrs *const ahrs);
 
 FusionVector FusionAhrsGetLinearAcceleration(const FusionAhrs *const ahrs);
 

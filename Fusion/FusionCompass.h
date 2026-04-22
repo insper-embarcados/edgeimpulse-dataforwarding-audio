@@ -1,8 +1,7 @@
 /**
  * @file FusionCompass.h
  * @author Seb Madgwick
- * @brief Tilt-compensated compass to calculate the magnetic heading using
- * accelerometer and magnetometer measurements.
+ * @brief Tilt-compensated compass to calculate magnetic heading.
  */
 
 #ifndef FUSION_COMPASS_H
@@ -17,7 +16,7 @@
 //------------------------------------------------------------------------------
 // Function declarations
 
-float FusionCompassCalculateHeading(const FusionConvention convention, const FusionVector accelerometer, const FusionVector magnetometer);
+float FusionCompass(const FusionVector accelerometer, const FusionVector magnetometer, const FusionConvention convention);
 
 #endif
 
