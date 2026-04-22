@@ -10,7 +10,8 @@
 #include "hardware/i2c.h"
 #include "mpu6050.h"
 
-#include <Fusion.h>
+#include "Fusion.h"
+#define SAMPLE_PERIOD (0.01f) // replace this with actual sample period
 
 const int MPU_ADDRESS = 0x68;
 const int I2C_SDA_GPIO = 4;
