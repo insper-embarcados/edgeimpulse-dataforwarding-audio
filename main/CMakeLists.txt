@@ -20,6 +20,7 @@ target_link_libraries(pico_emb PRIVATE
     FreeRTOS-Kernel-Heap4
     hardware_i2c
     Fusion
+    hardware_adc
     pico_stdlib
     )
 # Set the nunber of cores to 1.
