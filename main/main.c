@@ -42,7 +42,7 @@ void mic_task(void *p) {
 
         if(g_timer_0){
             adc_raw = adc_read(); // raw voltage from ADC
-            printf("%.2f\n", adc_raw * ADC_CONVERT);
+            printf("%d\n", adc_raw );
             g_timer_0 = 0;
         }
     }
